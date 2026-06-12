@@ -1,61 +1,103 @@
-# Twitch Resizer 🎮
+# Twitch Resize Tool
 
-Ferramenta simples em Python para gerar automaticamente os tamanhos exigidos pela Twitch para **Badges** e **Emotes**.
+Twitch Resize Tool é uma ferramenta simples em Python para gerar automaticamente os tamanhos exigidos pela Twitch para badges e emotes a partir de uma única imagem quadrada.
 
-A partir de uma única imagem quadrada, o programa cria todas as versões necessárias prontas para upload.
+O usuário fornece uma imagem de entrada e escolhe o tipo de saída desejado (`badge` ou `emote`). O programa gera automaticamente todas as versões necessárias.
 
----
+## Funcionalidades
 
-## ✨ Funcionalidades
+* Geração automática de badges da Twitch.
+* Geração automática de emotes da Twitch.
+* Mantém transparência em imagens PNG.
+* Interface simples via linha de comando.
+* Saída organizada em pasta dedicada.
+* Compatível com Windows, Linux e macOS.
 
-### Badges
+## Requisitos
 
-Gera:
+* Python 3.10+
+* Pillow
 
-- 72x72
-- 36x36
-- 18x18
+## Instalação
 
-### Emotes
-
-Gera:
-
-- 112x112
-- 56x56
-- 28x28
-
----
-
-## 📦 Requisitos
-
-- Python 3.10+
-- Pillow
-
-Instalação:
+### Clonar o repositório
 
 ```bash
-pip install pillow
+git clone git@github.com:SEU-USUARIO/twitch-resize-tool.git
+cd twitch-resize-tool
 ```
 
-Ou:
+### Criar ambiente virtual
+
+Linux/macOS:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Windows:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### Instalar dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+## Estrutura do Projeto
 
-# 🇧🇷 Português
+```text
+twitch-resize-tool/
+│
+├── input/
+├── output/
+│
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+## Dependências
+
+**requirements.txt**
+
+```txt
+Pillow
+```
+
+## Formatos Suportados
+
+Entrada:
+
+```text
+PNG
+JPG
+JPEG
+WEBP
+```
+
+Recomendado:
+
+```text
+PNG com fundo transparente
+```
 
 ## Uso
 
 ### Gerar Badges
 
+Comando:
+
 ```bash
-python main.py imagem.png badge
+python main.py input/imagem.png badge
 ```
 
-Saída:
+Arquivos gerados:
 
 ```text
 output/
@@ -63,11 +105,67 @@ output/
 ├── badge_36x36.png
 └── badge_18x18.png
 ```
+
+Tamanhos:
+
+| Arquivo         | Dimensão |
+| --------------- | -------- |
+| badge_72x72.png | 72×72    |
+| badge_36x36.png | 36×36    |
+| badge_18x18.png | 18×18    |
+
+---
 
 ### Gerar Emotes
 
+Comando:
+
 ```bash
-python main.py imagem.png emote
+python main.py input/imagem.png emote
+```
+
+Arquivos gerados:
+
+```text
+output/
+├── emote_112x112.png
+├── emote_56x56.png
+└── emote_28x28.png
+```
+
+Tamanhos:
+
+| Arquivo           | Dimensão |
+| ----------------- | -------- |
+| emote_112x112.png | 112×112  |
+| emote_56x56.png   | 56×56    |
+| emote_28x28.png   | 28×28    |
+
+## Exemplos
+
+### Badge
+
+Entrada:
+
+```bash
+python main.py input/logo.png badge
+```
+
+Saída:
+
+```text
+output/
+├── badge_72x72.png
+├── badge_36x36.png
+└── badge_18x18.png
+```
+
+### Emote
+
+Entrada:
+
+```bash
+python main.py input/smile.png emote
 ```
 
 Saída:
@@ -79,137 +177,63 @@ output/
 └── emote_28x28.png
 ```
 
-### Utilizando o Executável
+## Regras de Entrada
 
-Após gerar o `.exe` com PyInstaller:
+A imagem deve ser:
 
-```bash
-main.exe imagem.png badge
-```
+* Quadrada (largura igual à altura).
+* Preferencialmente PNG.
+* Preferencialmente com fundo transparente.
+* Preferencialmente em alta resolução para melhor qualidade após o redimensionamento.
 
-ou
-
-```bash
-main.exe imagem.png emote
-```
-
----
-
-## Estrutura do Projeto
+Exemplo recomendado:
 
 ```text
-twitch-resizer/
-│
-├── main.py
-├── requirements.txt
-├── README.md
-├── imagem.png
-│
-└── output/
+1024x1024 PNG transparente
 ```
 
----
-
-## Observações
-
-- A imagem de entrada deve ser quadrada.
-- Os arquivos são exportados em PNG.
-- A pasta `output` é criada automaticamente.
-- Arquivos existentes serão sobrescritos.
-
----
-
-# 🇺🇸 English
-
-## Usage
-
-### Generate Badges
-
-```bash
-python main.py image.png badge
-```
-
-Output:
+## Estrutura de Saída
 
 ```text
 output/
 ├── badge_72x72.png
 ├── badge_36x36.png
-└── badge_18x18.png
-```
-
-### Generate Emotes
-
-```bash
-python main.py image.png emote
-```
-
-Output:
-
-```text
-output/
+├── badge_18x18.png
+│
 ├── emote_112x112.png
 ├── emote_56x56.png
 └── emote_28x28.png
 ```
 
-### Using the Executable
+## Tratamento de Erros
 
-After building the `.exe` with PyInstaller:
+O programa valida:
+
+* Existência do arquivo informado.
+* Tipo de saída (`badge` ou `emote`).
+* Formato da imagem.
+* Dimensões da imagem.
+
+Exemplos:
 
 ```bash
-main.exe image.png badge
+python main.py imagem.png
 ```
 
-or
-
-```bash
-main.exe image.png emote
-```
-
----
-
-## Project Structure
+Retorno:
 
 ```text
-twitch-resizer/
-│
-├── main.py
-├── requirements.txt
-├── README.md
-├── image.png
-│
-└── output/
+Uso:
+python main.py <imagem> <badge|emote>
 ```
-
----
-
-## Notes
-
-- The input image must be square.
-- All generated files are exported as PNG.
-- The `output` folder is created automatically.
-- Existing files with the same name will be overwritten.
-
----
-
-## 🔨 Building the Executable
-
-Install PyInstaller:
 
 ```bash
-pip install pyinstaller
+python main.py imagem.png teste
 ```
 
-Build:
-
-```bash
-pyinstaller --onefile main.py
-```
-
-The executable will be generated inside:
+Retorno:
 
 ```text
-dist/
-└── main.exe
+Tipo inválido.
+Use: badge ou emote
 ```
